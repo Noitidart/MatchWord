@@ -1,66 +1,37 @@
-const {interfaces: Ci, utils: Cu} = Components;
+const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 const self = {
 	name: 'MatchWord',
+	path: {
+		chrome: 'chrome://matchword/content/'
+	},
 	aData: 0,
 };
+const myServices = {};
+var cssUri;
 
 Cu.import('resource://gre/modules/Services.jsm');
+Cu.import('resource://gre/modules/devtools/Console.jsm');
+Cu.import('resource://gre/modules/XPCOMUtils.jsm');
+XPCOMUtils.defineLazyGetter(myServices, 'sss', function(){ return Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService) });
 
-/*start - windowlistener*/
-var windowListener = {
-	//DO NOT EDIT HERE
-	onOpenWindow: function (aXULWindow) {
-		// Wait for the window to finish loading
-		let aDOMWindow = aXULWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
-		aDOMWindow.addEventListener("load", function () {
-			aDOMWindow.removeEventListener("load", arguments.callee, false);
-			windowListener.loadIntoWindow(aDOMWindow);
-		}, false);
-	},
-	onCloseWindow: function (aXULWindow) {},
-	onWindowTitleChange: function (aXULWindow, aNewTitle) {},
-	register: function () {
-		// Load into any existing windows
-		let DOMWindows = Services.wm.getEnumerator(null);
-		while (DOMWindows.hasMoreElements()) {
-			let aDOMWindow = DOMWindows.getNext();
-			windowListener.loadIntoWindow(aDOMWindow);
-		}
-		// Listen to new windows
-		Services.wm.addListener(windowListener);
-	},
-	unregister: function () {
-		// Unload from any existing windows
-		let DOMWindows = Services.wm.getEnumerator(null);
-		while (DOMWindows.hasMoreElements()) {
-			let aDOMWindow = DOMWindows.getNext();
-			windowListener.unloadFromWindow(aDOMWindow);
-		}
-		//Stop listening so future added windows dont get this attached
-		Services.wm.removeListener(windowListener);
-	},
-	//END - DO NOT EDIT HERE
-	loadIntoWindow: function (aDOMWindow) {
-		if (!aDOMWindow) {
-			return;
-		}
-		
-	},
-	unloadFromWindow: function (aDOMWindow) {
-		if (!aDOMWindow) {
-			return;
-		}
-	}
-};
-/*end - windowlistener*/
 function startup(aData, aReason) {
-	//self.aData = aData; //must go first, because functions in loadIntoWindow use self.aData
-	windowListener.register();
+	self.aData = aData;
+	console.log('aData',aData);
+	var css = '.findbar-container { -moz-binding:url("' + self.aData.resourceURI.spec + 'findbar.xml#matchword") }';
+	var cssEnc = encodeURIComponent(css);
+	var newURIParam = {
+		aURL: 'data:text/css,' + cssEnc,
+		aOriginCharset: null,
+		aBaseURI: null
+	}
+	cssUri = Services.io.newURI(newURIParam.aURL, newURIParam.aOriginCharset, newURIParam.aBaseURI);
+	myServices.sss.loadAndRegisterSheet(cssUri, myServices.sss.USER_SHEET);
+	
 }
 
 function shutdown(aData, aReason) {
 	if (aReason == APP_SHUTDOWN) return;
-	windowListener.unregister();
+	myServices.sss.unregisterSheet(cssUri, myServices.sss.USER_SHEET);
 }
 
 function install() {}

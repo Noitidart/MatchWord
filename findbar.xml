@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="matchword" extends="chrome://global/content/bindings/findbar.xml#findbar">
+		<content>
+			<xul:toolbarbutton anonid="matchword" class="tabbable" label="Match Word" accesskey="W" tooltiptext="Match only whole words" oncommand="console.log('hi')" type="checkbox"/>
+		</content>
+	</binding>
+</bindings>
