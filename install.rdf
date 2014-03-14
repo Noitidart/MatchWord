@@ -20,7 +20,7 @@
 		</em:targetApplication>
 
 		<!-- Front End MetaData -->
-		<em:name>Zoomr</em:name>
+		<em:name>MatchWord</em:name>
 		<em:description>Adds option to Findbar so that only whole words are matched.</em:description>
 		<em:creator>Noitidart</em:creator>
 		<em:contributor>Jozef Krajcovic for Icon</em:contributor>
