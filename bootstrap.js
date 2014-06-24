@@ -17,7 +17,8 @@ XPCOMUtils.defineLazyGetter(myServices, 'sss', function(){ return Cc['@mozilla.o
 function startup(aData, aReason) {
 	self.aData = aData;
 	console.log('aData',aData);
-	var css = '.findbar-container { -moz-binding:url("' + self.path.chrome + 'findbar.xml#matchword") }';
+	var css = '';
+	css += '.PanelUI-profilist { -moz-binding:url("' + self.path.chrome + 'findbar.xml#matchword") }';
 	var cssEnc = encodeURIComponent(css);
 	var newURIParam = {
 		aURL: 'data:text/css,' + cssEnc,
