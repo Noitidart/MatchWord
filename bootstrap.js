@@ -18,7 +18,7 @@ function startup(aData, aReason) {
 	self.aData = aData;
 	console.log('aData',aData);
 	var css = '';
-	css += '.PanelUI-profilist { -moz-binding:url("' + self.path.chrome + 'findbar.xml#matchword") }';
+	css += '.PanelUI-profilist { -moz-binding:url("' + self.path.chrome + 'findbar.xml#toolbarbutton") }';
 	var cssEnc = encodeURIComponent(css);
 	var newURIParam = {
 		aURL: 'data:text/css,' + cssEnc,
