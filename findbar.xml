@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
 <bindings xmlns="http://www.mozilla.org/xbl" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <binding id="matchword">
-        <content>
-            <children/>
-            <xul:toolbarbutton anonid="matchwordbtn" accesskey="w" class="tabbable" label="Match Word" tooltiptext="Match only whole words" oncommand="console.log('hi')" type="checkbox"/>
-        </content>
+    <binding id="matchword" display="xul:button" role="xul:toolbarbutton"
+           extends="chrome://global/content/bindings/button.xml#button-base">
+    <resources>
+      <stylesheet src="chrome://global/skin/toolbarbutton.css"/>
+    </resources>
+    
+    <content>
+      <children includes="observes|template|menupopup|panel|tooltip"/>
+      <xul:image class="toolbarbutton-icon" xbl:inherits="validate,src=image,label"/>
+      <xul:label class="toolbarbutton-text" crop="right" flex="1"
+                 xbl:inherits="value=label,accesskey,crop,wrap"/>
+      <xul:label class="toolbarbutton-multiline-text" flex="1"
+                 xbl:inherits="xbl:text=label,accesskey,wrap"/>
+    </content>
     </binding>
 </bindings>
+
