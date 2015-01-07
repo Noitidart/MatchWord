@@ -49,9 +49,10 @@ function shutdown(aData, aReason) {
 	var myTimerEvent = {
 		notify: function(timer) {
 			myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
+			console.log('ok unregged sthudown xbl');
 		}
 	}
-	myTimer.initWithCallback(myTimerEvent, 1000, Ci.nsITimer.TYPE_ONE_SHOT);
+	myTimer.initWithCallback(myTimerEvent, 500, Ci.nsITimer.TYPE_ONE_SHOT);
 }
 
 function install() {}
