@@ -31,7 +31,19 @@ function startup(aData, aReason) {
 
 function shutdown(aData, aReason) {
 	if (aReason == APP_SHUTDOWN) return;
+	
 	myServices.sss.unregisterSheet(cssUri, myServices.sss.USER_SHEET);
+	
+	var css = '.findbar-container { -moz-binding:url("' + self.path.chrome + 'findbar.xml#matchword_shutdown") }';
+	var cssEnc = encodeURIComponent(css);
+	var newURIParam = {
+		aURL: 'data:text/css,' + cssEnc,
+		aOriginCharset: null,
+		aBaseURI: null
+	}
+	var cssUriRemove = Services.io.newURI(newURIParam.aURL, newURIParam.aOriginCharset, newURIParam.aBaseURI); 
+	myServices.sss.loadAndRegisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
+	myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
 }
 
 function install() {}
