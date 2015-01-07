@@ -48,8 +48,11 @@ function shutdown(aData, aReason) {
 	var myTimer = Cc['@mozilla.org/timer;1'].createInstance(Ci.nsITimer);
 	var myTimerEvent = {
 		notify: function(timer) {
-			myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
-			console.log('ok unregged sthudown xbl');
+			var isRegged = myServices.sss.sheetRegistered(cssUriRemove, myServices.sss.USER_SHEET)
+			console.log('will now unreg xbl', 'isRegged:', isRegged);
+			myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET)
+			var isRegged = myServices.sss.sheetRegistered(cssUriRemove, myServices.sss.USER_SHEET)
+			console.log('ok unregged sthudown xbl', 'isRegged:', isRegged);
 		}
 	}
 	myTimer.initWithCallback(myTimerEvent, 500, Ci.nsITimer.TYPE_ONE_SHOT);
