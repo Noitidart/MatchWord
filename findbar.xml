@@ -6,9 +6,5 @@
             <xul:toolbarbutton anonid="matchwordbtn" accesskey="w" class="tabbable" label="Match Word" tooltiptext="Match only whole words" oncommand="console.log('hi')" type="checkbox"/>
         </content>
     </binding>
-    <binding id="matchword_shutdown">
-        <content>
-            <children/>
-        </content>
-    </binding> 
+    <binding id="matchword_shutdown" />
 </bindings>
