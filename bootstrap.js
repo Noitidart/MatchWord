@@ -43,7 +43,15 @@ function shutdown(aData, aReason) {
 	}
 	var cssUriRemove = Services.io.newURI(newURIParam.aURL, newURIParam.aOriginCharset, newURIParam.aBaseURI); 
 	myServices.sss.loadAndRegisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
-	myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
+	
+	// have to delay the unregister by some ms otherwise it wont trigger the xbl
+	var myTimer = Cc['@mozilla.org/timer;1'].createInstance(Ci.nsITimer);
+	var myTimerEvent = {
+		notify: function(timer) {
+			myServices.sss.unregisterSheet(cssUriRemove, myServices.sss.USER_SHEET);
+		}
+	}
+	myTimer.initWithCallback(myTimerEvent, 1000, Ci.nsITimer.TYPE_ONE_SHOT);
 }
 
 function install() {}
